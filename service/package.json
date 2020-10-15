@@ -1,16 +1,19 @@
 {
   "name": "service",
   "version": "1.0.0",
-  "description": "gallery service",
+  "description": "gallery web service",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@feathersjs/express": "^4.5.9",
     "@feathersjs/feathers": "^4.5.9",
-    "@feathersjs/socketio": "^4.5.9"
+    "@feathersjs/socketio": "^4.5.9",
+    "fs-blob-store": "^5.2.1",
+    "feathers-blob": "^2.3.0"
   }
 }
