@@ -1,0 +1,12 @@
+.about{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.about>img{
+    width: 100%;
+}
+
+.about>.intro{
+    width: 100%;
+}

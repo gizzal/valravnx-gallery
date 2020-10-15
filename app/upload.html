@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Welcome Evgenia</title>
+
+  <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+
+<div class="sidenav">
+  <ul>
+    <li><a href="preview.html">Preview Website</a></li>
+    <li><a href="upload.html">Upload Pictures</a></li>
+    <li><a href="edit.html">Edit Pictures</a></li>
+  </ul>
+</div>
+
+
+<div class="main">
+  <div class="content">
+
+    <img width="300px" id="imgPreview"
+         src="https://cdn0.iconfinder.com/data/icons/very-basic-2-android-l-lollipop-icon-pack/24/upload-2-512.png"
+         alt="uploading">
+
+    <label>
+      Picture:
+      <input type="file"
+             id="inputImage"
+             name="inputImage"
+             accept="image/png, image/jpeg"
+             onchange="previewFile()"
+      >
+    </label>
+
+    <label>
+      Description:
+      <textarea id="w3review" name="w3review" rows="4" cols="50"></textarea>
+    </label>
+
+    <label>
+      Authored on: <input id="timeStamp" type="date">
+    </label>
+
+    <button id="upload">Do It!</button>
+
+  </div>
+</div>
+
+<script>
+  let dateObj = new Date();
+  let month = dateObj.getUTCMonth() + 1; //months from 1-12
+  let day = dateObj.getUTCDate();
+  let year = dateObj.getUTCFullYear();
+
+  newdate = `${year}-${month}-${day}`;
+  document.querySelector("#timeStamp").value = newdate;
+
+
+  let previewFile = () => {
+    const preview = document.querySelector("#imgPreview");
+    const file = document.querySelector('input[type=file]').files[0];
+    const reader = new FileReader();
+    reader.addEventListener("load", function () {
+      preview.src = reader.result;
+    }, false);
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  }
+
+
+</script>
+
+</body>
+</html>
