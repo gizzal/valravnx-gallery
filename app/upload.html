@@ -48,16 +48,21 @@
             Authored on: <input id="timeStamp" type="date">
         </label>
 
-        <button id="upload">Do It!</button>
+        <button id="upload" onclick="uploadImage()">Do It!</button>
 
     </div>
 </div>
+
+<script type='text/javascript' src='//unpkg.com/feathers-client@^2.0.0/dist/feathers.js'></script>
 
 <script>
     let dateObj = new Date();
     let month = dateObj.getUTCMonth() + 1; //months from 1-12
     let day = dateObj.getUTCDate();
     let year = dateObj.getUTCFullYear();
+    const serverUrl = 'http://localhost:8000'
+    const uploadEndpoint = '/uploads'
+    const reader = new FileReader();
 
     newdate = `${year}-${month}-${day}`;
     document.querySelector("#timeStamp").value = newdate;
@@ -66,7 +71,6 @@
     let previewFile = () => {
         const preview = document.querySelector("#imgPreview");
         const file = document.querySelector('input[type=file]').files[0];
-        const reader = new FileReader();
         reader.addEventListener("load", function () {
             preview.src = reader.result;
         }, false);
@@ -76,53 +80,23 @@
         }
     }
 
-</script>
+    let uploadImage = () => {
+        let uploadUri = {uri: reader.result}
+        fetchServer(serverUrl+uploadEndpoint,uploadUri)
+    }
 
-<script src='https://code.jquery.com/jquery-2.2.3.min.js'
-        integrity='sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo='
-        crossorigin='anonymous'></script>
-<script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/core-js/2.1.4/core.min.js'></script>
-<script type='text/javascript' src='//unpkg.com/feathers-client@^2.0.0/dist/feathers.js'></script>
-<script type='text/javascript'>
 
-    const rest = feathers.rest('http://localhost:3030');
-    const app = feathers()
-        .configure(feathers.hooks())
-        .configure(rest.jquery($));
+    let fetchServer = (serverUrl, content) => {
+        fetch(serverUrl, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(content)
+        });
+    }
 
-    $.ajaxSetup({
-        xhr: function () {
-            var xhr = new window.XMLHttpRequest();
-            // upload progress
-            xhr.addEventListener('progress', function (evt) {
-                if (evt.lengthComputable) {
-                    var percentComplete = evt.loaded / evt.total;
-                    console.log('upload progress: ', Math.round(percentComplete * 100) + '%');
-                }
-            }, false);
-            return xhr;
-        }
-    });
-
-    const uploadService = app.service('uploads');
-    const reader = new FileReader();
-
-    $(document).ready(function () {
-        $('input#inputImage').change(function () {
-            let file = this.files[0];
-            reader.readAsDataURL(file);
-        })
-    });
-
-    reader.addEventListener('load', function () {
-        console.log('encoded file: ', reader.result);
-        let upload = uploadService
-            .create({uri: reader.result})
-            .then(function (response) {
-                alert('UPLOADED!! ');
-                console.log('Server responded with: ', response);
-            });
-    }, false);
 </script>
 
 </body>

@@ -13,7 +13,8 @@
     "@feathersjs/express": "^4.5.9",
     "@feathersjs/feathers": "^4.5.9",
     "@feathersjs/socketio": "^4.5.9",
-    "fs-blob-store": "^5.2.1",
-    "feathers-blob": "^2.3.0"
+    "cors": "^2.8.5",
+    "feathers-blob": "^2.3.0",
+    "fs-blob-store": "^5.2.1"
   }
 }
