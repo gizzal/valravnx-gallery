@@ -1,0 +1,37 @@
+version: "3"
+services:
+
+  service:
+    container_name: service
+    image: gallery/service
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./service:/service
+
+  dbPostgres:
+    container_name: db_postgres
+    image: postgres:12
+    ports:
+      - "7432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=db_gallery
+    volumes:
+      - ./database/postgres/data:/var/lib/postgresql/data
+
+  pgAdmin:
+    container_name: pgAdmin
+    depends_on:
+      - dbPostgres
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    ports:
+      - "8080:80"
+
+networks:
+  default:
+    driver: bridge

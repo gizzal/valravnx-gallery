@@ -1,28 +1,29 @@
-const uploadImage =  require("./services/UploadImage");
+const createSchemas  = require("./database/Schemas");
+
 const feathers = require('@feathersjs/feathers');
 const express = require('@feathersjs/express');
 const cors = require('cors')
-const blobService = require('feathers-blob');
-const fs = require('fs-blob-store');
-const blobStorage = fs(__dirname + '/uploads/pictures');
 const app = express(feathers());
+const routes = require("./routes/Routes");
 
 const corsOptions = {
-    origin: '*',
-    optionsSuccessStatus: 200
+  origin: '*',
+  optionsSuccessStatus: 200
 }
 
-app.use(express.json({limit: '50mb'}));
-app.use(express.urlencoded({limit: '50mb',extended: true}));
-app.configure(express.rest());
+createSchemas()
+
+app.use(express.json({limit: '50mb'}))
+app.use(express.urlencoded({limit: '50mb', extended: true}))
+
+app.configure(express.rest())
 app.use(cors(corsOptions))
+app.use(express.errorHandler())
 
-app.use('/uploads', blobService({Model: blobStorage}));
-app.use('/ping', new uploadImage);
-app.use(express.errorHandler());
+routes.services.forEach(route => app.use(route.route, route.service))
 
-app.listen(8000, function () {
-    console.log('Feathers app started at localhost:8000')
+app.listen(3000, function () {
+  console.log('Gallery service started at localhost:8000')
 });
 
 

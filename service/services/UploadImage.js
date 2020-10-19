@@ -1,16 +1,5 @@
 module.exports = class UploadImage {
 
-    knex = require('knex')({
-        client: 'pg',
-        version: '7.2',
-        connection: {
-            host: '127.0.0.1',
-            user: 'postgres',
-            password: 'test',
-            database: 'pg_dev'
-        }
-    });
-
     constructor() {
         this.names = []
     }
