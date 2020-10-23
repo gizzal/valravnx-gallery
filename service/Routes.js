@@ -1,7 +1,7 @@
-const uploads = require("./services/uploads")
+const images = require("./services/images")
 
 const routes = [
-  {route: "/uploads", service: new uploads}
+  {route: "/images", service: new images}
 ]
 
 module.exports.services = routes
