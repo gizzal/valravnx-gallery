@@ -127,16 +127,35 @@
 
     </div>
 
+    <div id="fetchedImages">
 
-    <!-- SnapWidget -->
-    <iframe src="https://snapwidget.com/embed/881479" class="snapwidget-widget" allowtransparency="true" frameborder="0"
-            scrolling="no" style="border:none; overflow:hidden;  width:495px; height:596px"></iframe>
+    </div>
+
 
   </div>
 </div>
 
 
+<script>
 
+
+  let fetchServer = async (serverUrl) => {
+    const response = await fetch(serverUrl)
+    return await response.json();
+  }
+
+  const fetchedImages = document.querySelector("#fetchedImages");
+  let imgTags = []
+  let images = fetchServer("http://localhost:3000/images").then(images =>
+    images.forEach(image => {
+      let img = document.createElement("img");
+      img.src = image.binary;
+      fetchedImages.appendChild(img);
+    })
+  )
+
+
+</script>
 
 </body>
 </html>

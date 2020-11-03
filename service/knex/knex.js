@@ -19,7 +19,7 @@ const createImageTable = (table) => {
         .createTable('images', table => {
           table.string('id');
           table.date('authored');
-          table.binary('binary');
+          table.text('binary');
           table.text('description');
         }).then(data => {
         logging.info("tables generated")
